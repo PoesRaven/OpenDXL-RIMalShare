@@ -22,9 +22,12 @@ Several steps take Place
   * The enterprise trust level is unkown or lower. 
   Note: RIMalShare will overwrite trusted enterprise scores with untrusted trust levels.
   
-  http://i.imgur.com/ieRKWIy.png
   
-  http://i.imgur.com/rEoABuq.png
+![Alt text](http://i.imgur.com/ieRKWIy.png "Structure")
+
+![Alt text](http://i.imgur.com/rEoABuq.png "Structure")
+  
+  
   
 RIMalShare uses [McAfee TIE DXL Python Client Library](https://github.com/opendxl/opendxl-tie-client-python) for gets and sets
 
