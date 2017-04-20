@@ -9,7 +9,7 @@ RI MalShare takes advantage of newly posted malware hashes submitted to the mals
 
 ![Alt text](http://i.imgur.com/rEoABuq.png "TIE Output")
 
-Several steps take Place
+Several steps take place...
 ### Extract
   During extraction, RIMalShare pulls the new content for the last 24 hours. You can run this as often as you'd like but I recommend at least every 24 hours. If its an entry which we've already addressed, the process will scope handling it.
  
