@@ -22,7 +22,9 @@ Several steps take Place
   * The enterprise trust level is unkown or lower. 
   Note: RIMalShare will overwrite trusted enterprise scores with untrusted trust levels.
   
+  http://i.imgur.com/ieRKWIy.png
   
+  http://i.imgur.com/rEoABuq.png
   
 RIMalShare uses [McAfee TIE DXL Python Client Library](https://github.com/opendxl/opendxl-tie-client-python) for gets and sets
 
@@ -36,7 +38,7 @@ https://www.malshare.com/
 
 * Generate an API key - https://www.malshare.com/register.php
 * Update ms.config with the API key
-#### edit the ms.config
+#### Edit the ms.config
 ```
 [malshare]
 apikey=<API KEY>
@@ -58,7 +60,7 @@ https://github.com/opendxl/opendxl-tie-client-python/wiki
 
 
 
-#### edit the dxlclient.config
+#### Edit the dxlclient.config
 ```
 [Certs]
 BrokerCertChain=certs/brokercert.crt
