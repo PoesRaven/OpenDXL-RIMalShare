@@ -26,7 +26,7 @@ Several steps take Place
   * The enterprise trust level is unkown or lower. 
   Note: RIMalShare will overwrite trusted enterprise scores with untrusted trust levels.
   
-!(http://i.imgur.com/B3C9ge5.png "FLD")
+![Functional Logic Diagram](http://i.imgur.com/B3C9ge5.png "FLD")
   
 
   
