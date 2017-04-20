@@ -5,6 +5,10 @@ RIMalShare (Reputation Ingest - MalShare) employs ETL to import new threat indic
 
 RI MalShare takes advantage of newly posted malware hashes submitted to the malshare.com repository. This allows Cyber System Administrators the ability to quickly innoculate all systems in their environment by making them aware of these critical updates.
 
+![Alt text](http://i.imgur.com/ieRKWIy.png "Output 1")
+
+![Alt text](http://i.imgur.com/rEoABuq.png "TIE Output")
+
 Several steps take Place
 ### Extract
   During extraction, RIMalShare pulls the new content for the last 24 hours. You can run this as often as you'd like but I recommend at least every 24 hours. If its an entry which we've already addressed, the process will scope handling it.
@@ -22,10 +26,9 @@ Several steps take Place
   * The enterprise trust level is unkown or lower. 
   Note: RIMalShare will overwrite trusted enterprise scores with untrusted trust levels.
   
+!(http://i.imgur.com/B3C9ge5.png "FLD")
   
-![Alt text](http://i.imgur.com/ieRKWIy.png "Structure")
 
-![Alt text](http://i.imgur.com/rEoABuq.png "Structure")
   
   
   
