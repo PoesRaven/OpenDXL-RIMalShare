@@ -63,6 +63,9 @@ ms_host=https://www.malshare.com
 ```
 
 #### Edit the dxlclient.config
+
+Provision DXL client certificates and fill in the broker list for the DXL Client.
+
 ```
 [Certs]
 BrokerCertChain=certs/brokercert.crt
@@ -72,12 +75,9 @@ PrivateKey=certs/client.key
 [Brokers]
 {}={};8883;
 ```
-
-Provision certificates and fill in the broker list for the DXL Client.
-
 For more information on configuring the DXL client see the [OpenDXL Python Client SDK Documentation](https://opendxl.github.io/opendxl-client-python/pydoc/index.html)
 
-### Run RI Malshare
+#### Run RI Malshare
 
 ```sh
 $ python ri_malshare.py
