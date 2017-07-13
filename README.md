@@ -34,9 +34,19 @@ Several steps take place...
   
 RIMalShare uses [McAfee TIE DXL Python Client Library](https://github.com/opendxl/opendxl-tie-client-python) for gets and sets
 
-Add pictures here
-
 ## Setup
+
+### Dependencies
+
+To run RI Malshare install Python 2.7 or later. Python 3 is not currently supported. 
+
+Install the required dependencies with the requirements.txt file:
+
+```sh
+$ pip install -r requirements.txt
+```
+
+This will install the dxlclient, dxltieclient, and requests modules.
 
 ### MalShare
 
@@ -50,6 +60,27 @@ https://www.malshare.com/
 apikey=<API KEY>
 ms_host=https://www.malshare.com
 
+```
+
+#### Edit the dxlclient.config
+
+Provision DXL client certificates and fill in the broker list for the DXL Client.
+
+```
+[Certs]
+BrokerCertChain=certs/brokercert.crt
+CertFile=certs/client.crt
+PrivateKey=certs/client.key
+
+[Brokers]
+{}={};8883;
+```
+For more information on configuring the DXL client see the [OpenDXL Python Client SDK Documentation](https://opendxl.github.io/opendxl-client-python/pydoc/index.html)
+
+#### Run RI Malshare
+
+```sh
+$ python ri_malshare.py
 ```
 
 ### McAfee OpenDXL SDK
@@ -66,13 +97,4 @@ https://github.com/opendxl/opendxl-tie-client-python/wiki
 
 
 
-#### Edit the dxlclient.config
-```
-[Certs]
-BrokerCertChain=certs/brokercert.crt
-CertFile=certs/client.crt
-PrivateKey=certs/client.key
 
-[Brokers]
-{}={};8883;
-```
