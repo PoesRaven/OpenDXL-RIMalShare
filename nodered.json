@@ -1,0 +1,363 @@
+[
+    {
+        "id": "b39de71c.53dc98",
+        "type": "change",
+        "z": "9efe708d.e0c5c",
+        "name": "Set Malshare API Key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "malshare_api",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "e1ac27ec.03c008"
+            ]
+        ]
+    },
+    {
+        "id": "992334de.8e59a8",
+        "type": "debug",
+        "z": "9efe708d.e0c5c",
+        "name": "Skip... No update required",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "update_tie",
+        "x": 880,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ba35cce4.b01e8",
+        "type": "http request",
+        "z": "9efe708d.e0c5c",
+        "name": "Malshare",
+        "method": "GET",
+        "ret": "txt",
+        "url": "",
+        "tls": "9192bc2a.8a6d48",
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "cbec4651.1db6e8"
+            ]
+        ]
+    },
+    {
+        "id": "49307562.3265ec",
+        "type": "inject",
+        "z": "9efe708d.e0c5c",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "b39de71c.53dc98"
+            ]
+        ]
+    },
+    {
+        "id": "cbec4651.1db6e8",
+        "type": "split",
+        "z": "9efe708d.e0c5c",
+        "name": "Split Newlines",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": true,
+        "addname": "",
+        "x": 220,
+        "y": 280,
+        "wires": [
+            [
+                "5a33cd3b.5fb4c4"
+            ]
+        ]
+    },
+    {
+        "id": "5a33cd3b.5fb4c4",
+        "type": "function",
+        "z": "9efe708d.e0c5c",
+        "name": "Convert to hashes",
+        "func": "words = msg.payload.split(\" \");\n\nwords_json={    \n    md5: words[0],\n    sha1: words[1],\n    sha256: words[2]\n};\n\nmsg.payload = words_json;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310,
+        "y": 340,
+        "wires": [
+            [
+                "f127328f.c69508"
+            ]
+        ]
+    },
+    {
+        "id": "155fde59.53db02",
+        "type": "dxl-tie-get-file-reputation",
+        "z": "9efe708d.e0c5c",
+        "name": "",
+        "client": "fa339fae.d0c24",
+        "returnType": "obj",
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "3548f1ee.8766a6"
+            ]
+        ]
+    },
+    {
+        "id": "f127328f.c69508",
+        "type": "change",
+        "z": "9efe708d.e0c5c",
+        "name": "Set hashes request parameter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "hashes",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "hashes",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 400,
+        "wires": [
+            [
+                "155fde59.53db02"
+            ]
+        ]
+    },
+    {
+        "id": "3548f1ee.8766a6",
+        "type": "change",
+        "z": "9efe708d.e0c5c",
+        "name": "Set TIE Results Parameter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "tie_results",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 40,
+        "wires": [
+            [
+                "41dac031.0aa47"
+            ]
+        ]
+    },
+    {
+        "id": "41dac031.0aa47",
+        "type": "function",
+        "z": "9efe708d.e0c5c",
+        "name": "New? Set Reputation?",
+        "func": "msg.update_tie = false;\n\nif(msg.tie_results[3][\"trustLevel\"] === 0 && msg.tie_results[1][\"trustLevel\"] === 0)\n{\n    msg.update_tie = true;\n}else if(msg.tie_results[3][\"trustLevel\"]== 50)\n{\n    msg.update_tie = true;\n}else if(msg.tie_results[3][\"trustLevel\"]== 70)\n{\n    msg.update_tie = true;\n}else if(msg.tie_results[3][\"trustLevel\"]== 85)\n{\n    msg.update_tie = true;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800,
+        "y": 100,
+        "wires": [
+            [
+                "b3a6ec95.eb9058"
+            ]
+        ]
+    },
+    {
+        "id": "59ae5d0e.4ef404",
+        "type": "debug",
+        "z": "9efe708d.e0c5c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "payload",
+        "x": 1360,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b3a6ec95.eb9058",
+        "type": "switch",
+        "z": "9efe708d.e0c5c",
+        "name": "Update TIE?",
+        "property": "update_tie",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "jsonata"
+            },
+            {
+                "t": "eq",
+                "v": "false",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 830,
+        "y": 160,
+        "wires": [
+            [
+                "ff78fef4.ba9b7"
+            ],
+            [
+                "992334de.8e59a8"
+            ]
+        ]
+    },
+    {
+        "id": "52f5f2ee.556bdc",
+        "type": "dxl-tie-set-file-reputation",
+        "z": "9efe708d.e0c5c",
+        "name": "Set Reputation",
+        "client": "fa339fae.d0c24",
+        "trustLevel": "15",
+        "comment": "MalShare Files",
+        "x": 1300,
+        "y": 280,
+        "wires": [
+            [
+                "59ae5d0e.4ef404"
+            ]
+        ]
+    },
+    {
+        "id": "ff78fef4.ba9b7",
+        "type": "change",
+        "z": "9efe708d.e0c5c",
+        "name": "Specify file name",
+        "rules": [
+            {
+                "t": "set",
+                "p": "fileName",
+                "pt": "msg",
+                "to": "unknown.malshare",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1070,
+        "y": 160,
+        "wires": [
+            [
+                "90377821.e55de8"
+            ]
+        ]
+    },
+    {
+        "id": "90377821.e55de8",
+        "type": "change",
+        "z": "9efe708d.e0c5c",
+        "name": "Set hashes request parameter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "hashes",
+                "pt": "msg",
+                "to": "hashes",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1210,
+        "y": 220,
+        "wires": [
+            [
+                "52f5f2ee.556bdc"
+            ]
+        ]
+    },
+    {
+        "id": "e1ac27ec.03c008",
+        "type": "function",
+        "z": "9efe708d.e0c5c",
+        "name": "Convert to hashes",
+        "func": "msg.url = \"https://www.malshare.com/api.php?api_key=\" + msg.malshare_api + \"&action=getlistraw\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "ba35cce4.b01e8"
+            ]
+        ]
+    },
+    {
+        "id": "9192bc2a.8a6d48",
+        "type": "tls-config",
+        "z": "",
+        "name": "Default",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false
+    },
+    {
+        "id": "fa339fae.d0c24",
+        "type": "dxl-client",
+        "z": "",
+        "configFile": "/data/dxl/dxlclient.config",
+        "name": "client",
+        "keepAliveInterval": "1800",
+        "reconnectDelay": "1"
+    }
+]
