@@ -1,8 +1,15 @@
 [
     {
-        "id": "b39de71c.53dc98",
+        "id": "c293f322.e02d2",
+        "type": "tab",
+        "label": "RIMalShare",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b3d631e0.b3ff3",
         "type": "change",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Set Malshare API Key",
         "rules": [
             {
@@ -18,49 +25,49 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 140,
-        "y": 100,
+        "x": 160,
+        "y": 120,
         "wires": [
             [
-                "e1ac27ec.03c008"
+                "1c074d88.18e202"
             ]
         ]
     },
     {
-        "id": "992334de.8e59a8",
+        "id": "492bb69e.ab42a8",
         "type": "debug",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Skip... No update required",
         "active": true,
         "tosidebar": true,
         "console": true,
         "tostatus": true,
         "complete": "update_tie",
-        "x": 880,
-        "y": 240,
+        "x": 900,
+        "y": 260,
         "wires": []
     },
     {
-        "id": "ba35cce4.b01e8",
+        "id": "d4f0914.dd0077",
         "type": "http request",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Malshare",
         "method": "GET",
         "ret": "txt",
         "url": "",
-        "tls": "9192bc2a.8a6d48",
-        "x": 140,
-        "y": 220,
+        "tls": "ee32cdd8.0c12",
+        "x": 160,
+        "y": 240,
         "wires": [
             [
-                "cbec4651.1db6e8"
+                "fa8228e2.6cb308"
             ]
         ]
     },
     {
-        "id": "49307562.3265ec",
+        "id": "81b0e078.4ac84",
         "type": "inject",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "",
         "topic": "",
         "payload": "",
@@ -69,18 +76,18 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 100,
-        "y": 40,
+        "x": 120,
+        "y": 60,
         "wires": [
             [
-                "b39de71c.53dc98"
+                "b3d631e0.b3ff3"
             ]
         ]
     },
     {
-        "id": "cbec4651.1db6e8",
+        "id": "fa8228e2.6cb308",
         "type": "split",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Split Newlines",
         "splt": "\\n",
         "spltType": "str",
@@ -88,49 +95,49 @@
         "arraySpltType": "len",
         "stream": true,
         "addname": "",
-        "x": 220,
-        "y": 280,
+        "x": 240,
+        "y": 300,
         "wires": [
             [
-                "5a33cd3b.5fb4c4"
+                "d0a90525.6df1c8"
             ]
         ]
     },
     {
-        "id": "5a33cd3b.5fb4c4",
+        "id": "d0a90525.6df1c8",
         "type": "function",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Convert to hashes",
         "func": "words = msg.payload.split(\" \");\n\nwords_json={    \n    md5: words[0],\n    sha1: words[1],\n    sha256: words[2]\n};\n\nmsg.payload = words_json;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 310,
-        "y": 340,
+        "x": 330,
+        "y": 360,
         "wires": [
             [
-                "f127328f.c69508"
+                "ef6d97e0.74bd78"
             ]
         ]
     },
     {
-        "id": "155fde59.53db02",
+        "id": "d173a9c9.6ba048",
         "type": "dxl-tie-get-file-reputation",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "",
-        "client": "fa339fae.d0c24",
+        "client": "2ed0ce07.039942",
         "returnType": "obj",
-        "x": 480,
-        "y": 460,
+        "x": 500,
+        "y": 480,
         "wires": [
             [
-                "3548f1ee.8766a6"
+                "7316fd54.e4b3a4"
             ]
         ]
     },
     {
-        "id": "f127328f.c69508",
+        "id": "ef6d97e0.74bd78",
         "type": "change",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Set hashes request parameter",
         "rules": [
             {
@@ -153,18 +160,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 430,
-        "y": 400,
+        "x": 450,
+        "y": 420,
         "wires": [
             [
-                "155fde59.53db02"
+                "d173a9c9.6ba048"
             ]
         ]
     },
     {
-        "id": "3548f1ee.8766a6",
+        "id": "7316fd54.e4b3a4",
         "type": "change",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Set TIE Results Parameter",
         "rules": [
             {
@@ -180,48 +187,48 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 760,
-        "y": 40,
+        "x": 780,
+        "y": 60,
         "wires": [
             [
-                "41dac031.0aa47"
+                "adc9f18.e70b11"
             ]
         ]
     },
     {
-        "id": "41dac031.0aa47",
+        "id": "adc9f18.e70b11",
         "type": "function",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "New? Set Reputation?",
         "func": "msg.update_tie = false;\n\nif(msg.tie_results[3][\"trustLevel\"] === 0 && msg.tie_results[1][\"trustLevel\"] === 0)\n{\n    msg.update_tie = true;\n}else if(msg.tie_results[3][\"trustLevel\"]== 50)\n{\n    msg.update_tie = true;\n}else if(msg.tie_results[3][\"trustLevel\"]== 70)\n{\n    msg.update_tie = true;\n}else if(msg.tie_results[3][\"trustLevel\"]== 85)\n{\n    msg.update_tie = true;\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 800,
-        "y": 100,
+        "x": 820,
+        "y": 120,
         "wires": [
             [
-                "b3a6ec95.eb9058"
+                "84860314.576a4"
             ]
         ]
     },
     {
-        "id": "59ae5d0e.4ef404",
+        "id": "e6e43f2e.1dedb",
         "type": "debug",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "",
         "active": true,
         "tosidebar": true,
         "console": true,
         "tostatus": true,
         "complete": "payload",
-        "x": 1360,
-        "y": 340,
+        "x": 1380,
+        "y": 360,
         "wires": []
     },
     {
-        "id": "b3a6ec95.eb9058",
+        "id": "84860314.576a4",
         "type": "switch",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Update TIE?",
         "property": "update_tie",
         "propertyType": "msg",
@@ -240,37 +247,37 @@
         "checkall": "false",
         "repair": false,
         "outputs": 2,
-        "x": 830,
-        "y": 160,
+        "x": 850,
+        "y": 180,
         "wires": [
             [
-                "ff78fef4.ba9b7"
+                "982e37bb.2c2198"
             ],
             [
-                "992334de.8e59a8"
+                "492bb69e.ab42a8"
             ]
         ]
     },
     {
-        "id": "52f5f2ee.556bdc",
+        "id": "3174bad2.f7c996",
         "type": "dxl-tie-set-file-reputation",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Set Reputation",
-        "client": "fa339fae.d0c24",
+        "client": "2ed0ce07.039942",
         "trustLevel": "15",
         "comment": "MalShare Files",
-        "x": 1300,
-        "y": 280,
+        "x": 1320,
+        "y": 300,
         "wires": [
             [
-                "59ae5d0e.4ef404"
+                "e6e43f2e.1dedb"
             ]
         ]
     },
     {
-        "id": "ff78fef4.ba9b7",
+        "id": "982e37bb.2c2198",
         "type": "change",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Specify file name",
         "rules": [
             {
@@ -286,18 +293,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1070,
-        "y": 160,
+        "x": 1090,
+        "y": 180,
         "wires": [
             [
-                "90377821.e55de8"
+                "7261ee14.939be"
             ]
         ]
     },
     {
-        "id": "90377821.e55de8",
+        "id": "7261ee14.939be",
         "type": "change",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Set hashes request parameter",
         "rules": [
             {
@@ -313,32 +320,32 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1210,
-        "y": 220,
+        "x": 1230,
+        "y": 240,
         "wires": [
             [
-                "52f5f2ee.556bdc"
+                "3174bad2.f7c996"
             ]
         ]
     },
     {
-        "id": "e1ac27ec.03c008",
+        "id": "1c074d88.18e202",
         "type": "function",
-        "z": "9efe708d.e0c5c",
+        "z": "c293f322.e02d2",
         "name": "Convert to hashes",
         "func": "msg.url = \"https://www.malshare.com/api.php?api_key=\" + msg.malshare_api + \"&action=getlistraw\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 130,
-        "y": 160,
+        "x": 150,
+        "y": 180,
         "wires": [
             [
-                "ba35cce4.b01e8"
+                "d4f0914.dd0077"
             ]
         ]
     },
     {
-        "id": "9192bc2a.8a6d48",
+        "id": "ee32cdd8.0c12",
         "type": "tls-config",
         "z": "",
         "name": "Default",
