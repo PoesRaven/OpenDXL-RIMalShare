@@ -350,14 +350,5 @@
         "caname": "",
         "servername": "",
         "verifyservercert": false
-    },
-    {
-        "id": "fa339fae.d0c24",
-        "type": "dxl-client",
-        "z": "",
-        "configFile": "/data/dxl/dxlclient.config",
-        "name": "client",
-        "keepAliveInterval": "1800",
-        "reconnectDelay": "1"
     }
 ]
