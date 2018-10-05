@@ -97,4 +97,7 @@ https://github.com/opendxl/opendxl-tie-client-python/wiki
 
 
 
+### Node Red
+Added node red configuration. Simply import nodered.json as a flow to get the same functionality in node red.
+
 
