@@ -22,6 +22,11 @@ from dxltieclient.constants import HashType, TrustLevel, FileProvider
 # sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from common import *
 
+# Put the app into Debug mode
+DEBUG = True
+# Maximum number of hashes to submit
+DEBUG_LIMIT = 5
+
 convert_trust = {}
 convert_trust[TrustLevel.KNOWN_TRUSTED_INSTALLER] = "Known Trusted Installer"
 convert_trust[TrustLevel.KNOWN_TRUSTED] = "Known Trusted"
@@ -62,12 +67,12 @@ logger.info("Enumerating results")
 
 for item in strMSResult.split(b'\n'):
 
-    if childcounter > 5:
+    if DEBUG and childcounter > DEBUG_LIMIT:
         break
     # Build a dictionary of results that should be in scope for updating TIE
     MSResult[childcounter] = {}
     MSResult[childcounter]['md5']=item
-    MSResult[childcounter]['trustlevel']=TrustLevel.MOST_LIKELY_MALICIOUS
+    MSResult[childcounter]['trustlevel'] = TrustLevel.MOST_LIKELY_MALICIOUS
     MSResult[childcounter]['filename'] = "MALSHARE.unknown"
         
     childcounter+=1
@@ -99,9 +104,18 @@ with DxlClient(config) as client:
         currentFilename = None
         currentTrustLevel = None
 
-        currentMD5= MSResult[fileKey]['md5'].split()[0]
+        currentMD5= MSResult[fileKey]['md5'].split()[0].decode('ascii')
         currentFilename=MSResult[fileKey]['filename']
         currentTrustLevel=MSResult[fileKey]['trustlevel']
+
+        #Set External Reputation no matter what
+        print(currentTrustLevel)
+        tie_client.set_external_file_reputation(
+            currentTrustLevel,
+            {HashType.MD5: currentMD5},
+            filename=currentFilename,
+            comment="Reputation provided by RIMalshare with a reputation of: RIM Malicious"
+        )
 
         reputations_dict = \
                 tie_client.get_file_reputation({
@@ -111,7 +125,7 @@ with DxlClient(config) as client:
 
         print(reputations_dict)
         csv_row = {}
-        csv_row['md5'] = currentMD5.decode('ascii')
+        csv_row['md5'] = currentMD5
         if FileProvider.GTI in reputations_dict.keys():
             if 'gti' not in fieldnames:
                 fieldnames.append('gti')
@@ -133,8 +147,9 @@ with DxlClient(config) as client:
                 fieldnames.append('external')
             csv_row['external'] = convert_trust[reputations_dict[FileProvider.EXTERNAL]["trustLevel"]]
 
-        csv_document[currentMD5.decode('ascii')] = csv_row
+        csv_document[currentMD5] = csv_row
 
+"""
         #Check if there is an enterprise (custom set) reputation
         if (reputations_dict[FileProvider.ENTERPRISE]["trustLevel"] == TrustLevel.NOT_SET and \
             reputations_dict[FileProvider.GTI]["trustLevel"] == TrustLevel.NOT_SET) or \
@@ -150,11 +165,11 @@ with DxlClient(config) as client:
             print("Reputation set for: " + str(fileKey) + ": " + str(currentMD5))
 
         else:
-            print("Skipping: {}: {}".format(fileKey, currentMD5.decode('ascii')))
-            print("MD5: {}".format(currentMD5.decode('ascii')))
+            print("Skipping: {}: {}".format(fileKey, currentMD5))
+            print("MD5: {}".format(currentMD5))
             print("GTI: {}".format(convert_trust[reputations_dict[FileProvider.GTI]["trustLevel"]]))
             print("Enterprise: {}".format(convert_trust[reputations_dict[FileProvider.ENTERPRISE]["trustLevel"]]))
-
+"""
 
 with open('reputations.csv', 'w', newline='') as file:
     writer = csv.DictWriter(file, fieldnames=fieldnames, quoting=csv.QUOTE_NONNUMERIC)
