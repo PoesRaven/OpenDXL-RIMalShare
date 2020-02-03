@@ -5,6 +5,7 @@
 #conviction.
 
 import requests
+import time
 import logging
 
 import csv
@@ -116,6 +117,8 @@ with DxlClient(config) as client:
             filename=currentFilename,
             comment="Reputation provided by RIMalshare with a reputation of: RIM Malicious"
         )
+
+        time.sleep(1)
 
         reputations_dict = \
                 tie_client.get_file_reputation({
